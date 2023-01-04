@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity, Image } from "react-native";
 
 //screens
 import screens from "../screens";
-const { CreateScreen, PostsScreen, ProfileScreen } = screens;
+const { CreateScreen, PostsScreen, ProfileScreen, MapScreen } = screens;
 
 //icons
 const backIcon = require("../assets/icon/arrow-left.png");
@@ -89,6 +89,21 @@ export default function Home({ navigation, route }) {
           ),
         }}
         component={ProfileScreen}
+      />
+      <MainTab.Screen
+        name="MapScreen"
+        options={{
+          headerShown: false,
+          tabBarVisible: true,
+          tabBarIcon: ({ focused, size, color }) => (
+            <MaterialCommunityIcons
+              name="map-marker"
+              size={focused ? 44 : 34}
+              color={focused ? "orange" : color}
+            />
+          ),
+        }}
+        component={MapScreen}
       />
     </MainTab.Navigator>
   );

@@ -4,6 +4,7 @@ import {
   PostsScreen,
   ProfileScreen,
   ComentsScreen,
+  MapScreen,
 } from "./mainScreens";
 
 const screens = {
@@ -13,5 +14,6 @@ const screens = {
   PostsScreen,
   ProfileScreen,
   ComentsScreen,
+  MapScreen,
 };
 export default screens;

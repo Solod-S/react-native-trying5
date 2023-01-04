@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Camera, CameraType } from "expo-camera";
+import { useIsFocused } from "@react-navigation/native";
+import * as Location from "expo-location";
 import {
   Text,
   View,
@@ -27,6 +29,7 @@ const initialState = {
 const camera = require("../../assets/icon/camera.png");
 
 export default function CreateScreen({ navigation }) {
+  const isFocused = useIsFocused();
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [type, setType] = useState(CameraType.front);
@@ -39,6 +42,16 @@ export default function CreateScreen({ navigation }) {
   );
 
   useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      // let location = await Location.getCurrentPositionAsync({});
+      // setLocation(location);
+    })();
     requestPermission;
     const onChange = () => {
       const width = Dimensions.get("window").width - 20 * 2;
@@ -64,7 +77,6 @@ export default function CreateScreen({ navigation }) {
       dimensionsHandler.remove();
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
-      // setPhoto(null);
     };
   }, [photo]);
 
@@ -86,12 +98,17 @@ export default function CreateScreen({ navigation }) {
       location: "Test, Test",
       like: 153,
     });
-    // setPhoto(null);
+    setPhoto(null);
   };
   const takePicture = async () => {
     try {
       let { uri } = await camera.takePictureAsync();
-
+      let location = await Location.getCurrentPositionAsync({});
+      console.log(
+        "location",
+        location.coords.latitude,
+        location.coords.longitude
+      );
       setPhoto(uri);
     } catch (error) {
       console.log(error);
@@ -102,6 +119,7 @@ export default function CreateScreen({ navigation }) {
   };
   if (!permission) {
     // Camera permissions are still loading
+    return null;
     return <View />;
   }
 
@@ -119,62 +137,64 @@ export default function CreateScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Camera
-        skipProcessing={true}
-        type={type}
-        onCameraReady={onCameraReady}
-        onMountError={(error) => {
-          154;
-          console.log("cammera error", error);
-          155;
-        }}
-        ref={setCamera}
-        style={{
-          height: "70%",
-          borderRadius: "50%",
-          marginHorizontal: 10,
-          // flex: 1,
-          // marginTop: 50,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          paddingBottom: 20,
-        }}
-      >
-        {photo && (
-          <View
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              borderColor: "white",
-              borderWidth: 1,
-            }}
-          >
-            <Image source={{ uri: photo, height: 200, width: 200 }} />
-          </View>
-        )}
-        <TouchableOpacity
-          activeOpacity={0.6}
-          style={{
-            borderWidth: 1,
-            borderColor: "white",
-            borderRadius: 50,
-            width: 70,
-            height: 70,
-            alignItems: "center",
-            justifyContent: "center",
+      {isFocused && (
+        <Camera
+          skipProcessing={true}
+          type={type}
+          onCameraReady={onCameraReady}
+          onMountError={(error) => {
+            154;
+            console.log("cammera error", error);
+            155;
           }}
-          onPress={takePicture}
+          ref={setCamera}
+          style={{
+            height: "70%",
+            borderRadius: "50%",
+            marginHorizontal: 10,
+            // flex: 1,
+            // marginTop: 50,
+            justifyContent: "flex-end",
+            alignItems: "center",
+            paddingBottom: 20,
+          }}
         >
-          <Text
+          {photo && (
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                borderColor: "white",
+                borderWidth: 1,
+              }}
+            >
+              <Image source={{ uri: photo, height: 200, width: 200 }} />
+            </View>
+          )}
+          <TouchableOpacity
+            activeOpacity={0.6}
             style={{
-              color: "white",
+              borderWidth: 1,
+              borderColor: "white",
+              borderRadius: 50,
+              width: 70,
+              height: 70,
+              alignItems: "center",
+              justifyContent: "center",
             }}
+            onPress={takePicture}
           >
-            PHOTO
-          </Text>
-        </TouchableOpacity>
-      </Camera>
+            <Text
+              style={{
+                color: "white",
+              }}
+            >
+              PHOTO
+            </Text>
+          </TouchableOpacity>
+        </Camera>
+      )}
       <TouchableOpacity
         activeOpacity={0.6}
         style={{
