@@ -8,14 +8,14 @@ export default function MainPost({
   navigation,
   title,
   image,
-  coments,
+  comments,
   location,
 }) {
   return (
     <TouchableOpacity
       activeOpacity={0.6}
       style={styles.post}
-      onPress={() => navigation.navigate("Coments")}
+      onPress={() => navigation.navigate("Comments")}
     >
       <Image
         source={{ uri: image, height: 300, width: "100%" }}
@@ -25,7 +25,7 @@ export default function MainPost({
       <View style={styles.postFooter}>
         <View style={styles.postCommentThmb}>
           <Image style={styles.postCommentIcon} source={commentPin} />
-          <Text style={styles.postCommentNumber}>{coments}</Text>
+          <Text style={styles.postCommentNumber}>{comments}</Text>
         </View>
 
         <View style={styles.postLocationThmb}>

@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Home from "./screens/Home";
 import screens from "./screens";
-const { LoginScreen, RegistrationScreen, ComentsScreen, MapScreen } = screens;
+const { LoginScreen, RegistrationScreen, CommentsScreen, MapScreen } = screens;
 
 const GeneralStack = createStackNavigator();
 // const MainStack = createStackNavigator();
@@ -32,8 +32,8 @@ const useRoute = () => {
         ></GeneralStack.Screen>
         <GeneralStack.Screen
           options={{ title: "Комментарии", headerTitleAlign: "center" }}
-          name="Coments"
-          component={ComentsScreen}
+          name="Comments"
+          component={CommentsScreen}
         />
         <GeneralStack.Screen
           options={{ title: "Карта", headerTitleAlign: "center" }}

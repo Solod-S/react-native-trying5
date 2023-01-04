@@ -24,7 +24,8 @@ import posts from "../../assets/data/posts.js";
 //images
 const ava = require("../../assets/images/avatar.png");
 
-export default function PostsScreen({ navigation, route }) {
+export default function DefaultScreen({ navigation, route }) {
+  const [postss, setPosts] = useState(posts);
   const [dimensions, setdimensions] = useState(
     Dimensions.get("window").width - 16 * 2
   );
@@ -32,9 +33,12 @@ export default function PostsScreen({ navigation, route }) {
   const { name, email } = profile;
 
   useEffect(() => {
+    if (route.params) {
+      setPosts((prevState) => [...prevState, route.params]);
+    }
     const onChange = () => {
       const width = Dimensions.get("window").width - 16 * 2;
-      console.log(width);
+
       setdimensions(width);
     };
     const dimensionsHandler = Dimensions.addEventListener("change", onChange);
@@ -42,7 +46,7 @@ export default function PostsScreen({ navigation, route }) {
     return () => {
       dimensionsHandler.remove();
     };
-  }, []);
+  }, [route.params]);
 
   return (
     <View style={{ ...styles.container, width: dimensions + 16 * 2 }}>
@@ -53,8 +57,9 @@ export default function PostsScreen({ navigation, route }) {
           <Text style={styles.email}>{email}</Text>
         </View>
       </View>
+
       <FlatList
-        data={posts}
+        data={postss}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, indx) => indx.toString()}
         renderItem={({ item }) => {
@@ -71,6 +76,10 @@ export default function PostsScreen({ navigation, route }) {
           );
         }}
       />
+
+      {/* --------------------------------------------- */}
+      {/* --------------------------------------------- */}
+      {/* --------------------------------------------- */}
       {/* <ScrollView showsVerticalScrollIndicator={false}>
         {posts &&
           posts.map(({ id, image, title, comments, location }) => (
