@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Button,
 } from "react-native";
 
 const profile = {
@@ -57,7 +58,15 @@ export default function DefaultScreen({ navigation, route }) {
           <Text style={styles.email}>{email}</Text>
         </View>
       </View>
-
+      <Button title="To Map" onPress={() => navigation.navigate("MapScreen")} />
+      <Button
+        title="To CommentsScreen"
+        onPress={() => navigation.navigate("CommentsScreen")}
+      />
+      <Button
+        title="To CommentsScreen"
+        onPress={() => navigation.navigate("CommentsScreen")}
+      />
       <FlatList
         data={postss}
         showsVerticalScrollIndicator={false}

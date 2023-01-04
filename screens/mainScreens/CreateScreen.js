@@ -89,7 +89,7 @@ export default function CreateScreen({ navigation }) {
 
   const submitForm = () => {
     // keyboardHide();
-    navigation.navigate("PostsScreen", {
+    navigation.navigate("DefaultScreen", {
       id: "1",
       image: photo,
       // image: require("../../assets/images/postImg1.png"),

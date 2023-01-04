@@ -90,7 +90,7 @@ export default function Home({ navigation, route }) {
         }}
         component={ProfileScreen}
       />
-      <MainTab.Screen
+      {/* <MainTab.Screen
         name="MapScreen"
         options={{
           headerShown: false,
@@ -104,7 +104,7 @@ export default function Home({ navigation, route }) {
           ),
         }}
         component={MapScreen}
-      />
+      /> */}
     </MainTab.Navigator>
   );
 }
